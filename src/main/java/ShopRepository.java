@@ -31,6 +31,11 @@ public class ShopRepository {
 
     // Этот способ мы рассматривали в теории в теме про композицию
     public void remove(int id) {
+        Product productForRemoving = findById(id);
+        if (productForRemoving == null) {
+            throw new NotFoundException(id);
+        }
+
         Product[] tmp = new Product[products.length - 1];
         int copyToIndex = 0;
         for (Product product : products) {
@@ -40,5 +45,15 @@ public class ShopRepository {
             }
         }
         products = tmp;
+    }
+
+    public Product findById(int id) {
+        for (Product product : products) {
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+
+        return null;
     }
 }
